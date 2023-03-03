@@ -1,0 +1,43 @@
+{
+    "base": "stations", 
+    "clouds": {
+        "all": 100
+        }, 
+    "cod": 200, 
+    "coord": {
+        "lat": 45.782, 
+        "lon": 4.7482
+        }, 
+    "dt": 1677847597, 
+    "id": 3026700, 
+    "main": {
+        "feels_like": 4.08, 
+        "humidity": 56, 
+        "pressure": 1020, 
+        "temp": 7.56, 
+        "temp_max": 8.93,
+        "temp_min": 6.77
+    }, 
+    "name": "Charbonnières-les-Bains", 
+    "sys": {
+        "country": "FR", 
+        "id": 6505, 
+        "sunrise": 1677824228, 
+        "sunset": 1677864556, 
+        "type": 1
+    }, 
+    "timezone": 3600, 
+    "visibility": 10000, 
+    "weather": [
+        {
+            "description": "couvert", 
+            "icon": "04d", 
+            "id": 804, 
+            "main": "Clouds"
+        }
+    ], 
+    "wind": {
+        "deg": 340, 
+        "speed": 6.17
+    }
+}
