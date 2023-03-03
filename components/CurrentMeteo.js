@@ -1,40 +1,42 @@
-import { useState } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
-import Geolocation from "react-native-geolocation-service";
+import React, { useState, useEffect } from 'react';
+import { Platform, Text, View, StyleSheet } from 'react-native';
+
+import * as Location from 'expo-location';
 
 export default function CurrentMeteo() {
-  const [postion, setPostion] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-  // Récupérer la position GPS
-  const getPosition = () => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position);
-      },
-      (error) => {
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+
+      try {
+        let location = await Location.getCurrentPositionAsync({});
+        console.log("ici");
+        setLocation(location);
+      }catch(error){
         console.log(error);
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
-  };
+      }
+    })();
+  }, []);
 
-  // Appeler l'API pour récupérer la météo actuel
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
 
   return (
     <View style={styles.container}>
-      <Text>Welcome!</Text>
-      <View
-        style={{ marginTop: 10, padding: 10, borderRadius: 10, width: "40%" }}
-      >
-        <Button title="Get Location" onPress={getPosition} />
-      </View>
-      <Text>Latitude: </Text>
-      <Text>Longitude: </Text>
-      <View
-        style={{ marginTop: 10, padding: 10, borderRadius: 10, width: "40%" }}
-      >
-        <Button title="Send Location" />
-      </View>
+      <Text style={styles.paragraph}>{text}</Text>
     </View>
   );
 }
