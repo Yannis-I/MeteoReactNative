@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import axios from 'axios';
-import datas from '../datas.json';
 
-export default function CurrentMeteo({location, API_KEY, setErrorMsg}) {
+export default function CurrentMeteo({location, API_KEY, setErrorMsg, getDayString}) {
   const [currentWeather, setCurrentWeather] = useState(null);
   const [iconUri, setIconUri] = useState(null);
   const [dateFormatted, setDateFormatted] = useState(null);
@@ -18,20 +17,14 @@ export default function CurrentMeteo({location, API_KEY, setErrorMsg}) {
       const lat = location.coords.latitude;
       const lon = location.coords.longitude;
       
-      //   axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&lang=fr&units=metric`)
-      //       .then(response => {
-        //         // iconUri = `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`;
-    //         console.log(response.data);
-    //         setCurrentWeather(response.data);
-    //       })
-    //       .catch(error => {
-      //         console.log(error);
-      //          setErrorMsg("Une erreur de connexion à l'API est survenue, réessayez plus tard");
-      //       });
-
-      console.log("fetch curentWeather (location : " + location + ")");
-      
-      setCurrentWeather(datas);
+      axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&lang=fr&units=metric`)
+        .then(response => {
+        setCurrentWeather(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+          setErrorMsg("Une erreur de connexion à l'API est survenue, réessayez plus tard");
+        });
     }
   }, [location])
   
@@ -54,25 +47,6 @@ export default function CurrentMeteo({location, API_KEY, setErrorMsg}) {
         + " " 
         + date.getFullYear();
     return formattedDate;
-  }
-
-  const getDayString = (day) => {
-    switch(day){
-      case 1:
-        return "Lundi"
-      case 2:
-        return "Mardi"
-      case 3:
-        return "Mercredi"
-      case 4:
-        return "Jeudi"
-      case 5:
-        return "Vendredi"
-      case 6:
-        return "Samedi"
-      case 7:
-        return "Dimanche"
-    }
   }
 
   const getMonthString = (month) => {

@@ -35,6 +35,25 @@ export default function App() {
     setErrorMsg(null);
   }, [page]);
 
+  const getDayString = (day) => {
+    switch(day){
+      case 1:
+        return "Lundi"
+      case 2:
+        return "Mardi"
+      case 3:
+        return "Mercredi"
+      case 4:
+        return "Jeudi"
+      case 5:
+        return "Vendredi"
+      case 6:
+        return "Samedi"
+      case 0:
+        return "Dimanche"
+    }
+  }
+
   return (
     <View style={styles.container}>
       {errorMsg ?
@@ -42,9 +61,9 @@ export default function App() {
       :
         <>
           {page == 1 ? 
-            <CurrentMeteo location={location} API_KEY={API_KEY} setErrorMsg={setErrorMsg} />
+            <CurrentMeteo location={location} API_KEY={API_KEY} setErrorMsg={setErrorMsg} getDayString={getDayString} />
           :
-            <Previsons location={location} API_KEY={API_KEY} setErrorMsg={setErrorMsg} />
+            <Previsons location={location} API_KEY={API_KEY} setErrorMsg={setErrorMsg} getDayString={getDayString} />
           }
         </>
       }
